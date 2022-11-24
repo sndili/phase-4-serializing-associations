@@ -3,12 +3,15 @@ class DirectorsController < ApplicationController
 
   def index
     directors = Director.all
-    render json: directors
+    #The original way which will include all the associated models, but without serializing any data
+    # render json: directors, include: [movies: {include: [:reviews]}]
+    
+    render json: directors, include: ["movies", "movies.reviews"]
   end
 
   def show
     director = Director.find(params[:id])
-    render json: director
+    render json: director, include: ["movies", "movies.reviews"]
   end
 
   private
